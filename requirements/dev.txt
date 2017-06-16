@@ -1,0 +1,6 @@
+-r common.txt
+
+coverage>=4.4.1
+flake8>=3.3.0
+pytest>=3.1.2
+tox>=2.7.0
