@@ -7,18 +7,18 @@ import nltk
 import tornado.web
 import tornado.wsgi
 import wsgiref.simple_server
+from decouple import config
 
 from what_words.views import URLFormHandler
-
-
-BASE_DIR = Path(__file__).parent
 
 
 nltk.download(['punkt', 'averaged_perceptron_tagger'])
 
 
+BASE_DIR = Path(__file__).parent
+
 settings = {
-    'debug': True,
+    'debug': config('DEBUG', default=False, cast=bool),
     'static_path': str(BASE_DIR / 'static'),
 }
 

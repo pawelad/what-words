@@ -11,7 +11,7 @@
 
 {% block extra_js %}
     <script>
-        var words = {% raw word_count %};
+        var words = {% raw word_list %};
         words = $.map(words, function(e){
             return { text: e[0], weight: e[1] };
         });
