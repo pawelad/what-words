@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Word</th>
+            <th>Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for word_count in word_list %}
+        <tr>
+            <td>{{ word_count.word }}</td>
+            <td>{{ word_count.count }}</td>
+        </tr>
+        {% end %}
+        </tbody>
+    </table>
+{% end %}

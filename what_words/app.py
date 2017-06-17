@@ -29,6 +29,7 @@ settings = {
 tornado_app = tornado.web.Application([
     (r'/', views.URLFormHandler),
     (r'/login', views.LoginHandler),
+    (r'/words', views.WordListHandler),
 ], **settings)
 wsgi_app = tornado.wsgi.WSGIAdapter(tornado_app)
 

@@ -16,7 +16,19 @@ from what_words.utils import get_words_count
 ADMIN_PASSWORD = config('ADMIN_PASSWORD')
 
 
-class LoginHandler(tornado.web.RequestHandler):
+class BaseHandler(PeeweeRequestHandler):
+    """
+    Base Tornado handler
+    """
+    def get_current_user(self):
+        """
+        Implements Tornado's `get_current_user()` method and returns
+        currently logged in user
+        """
+        return self.get_secure_cookie('user')
+
+
+class LoginHandler(BaseHandler):
     """
     Tornado handler for login view
     """
@@ -38,14 +50,14 @@ class LoginHandler(tornado.web.RequestHandler):
         password = self.get_argument('password', '')
 
         if password == ADMIN_PASSWORD:
-            self.set_secure_cookie('user', b'')
+            self.set_secure_cookie('user', 'admin')
             return self.redirect('/')
         else:
             form.password.errors = ("Incorrect password.",)
             return self.render('templates/login_form.html', form=form)
 
 
-class URLFormHandler(PeeweeRequestHandler):
+class URLFormHandler(BaseHandler):
     """
     Tornado handler for URL form view
     """
@@ -93,6 +105,20 @@ class URLFormHandler(PeeweeRequestHandler):
                 'word_list': json_word_list,
             }
 
-            return self.render('templates/words_list.html', **ctx)
+            return self.render('templates/result.html', **ctx)
 
         return self.render('templates/url_form.html', form=form)
+
+
+class WordListHandler(BaseHandler):
+    """
+    Tornado handler for word list view
+    """
+    @tornado.web.authenticated
+    def get(self):
+        """
+        Render login form
+        """
+        word_list = WordCount.select().order_by(-WordCount.count)
+
+        return self.render('templates/word_list.html', word_list=word_list)
