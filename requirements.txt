@@ -1,3 +1,8 @@
+beautifulsoup4>=4.6.0
 gunicorn>=19.7.1
+html5lib
+nltk>=3.2.4
+PyMySQL>=0.7.11
+requests>=2.18.1
 tornado>=4.5.1
 wtforms-tornado>=0.0.2

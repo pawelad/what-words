@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h3 class="text-center">
+        Word occurrences in {{ url }}:
+    </h3>
+    <div id="word-cloud"></div>
+{% end %}
+
+
+{% block extra_js %}
+    <script>
+        var words = {% raw word_count %};
+        words = $.map(words, function(e){
+            return { text: e[0], weight: e[1] };
+        });
+
+        $(function() {
+            $('#word-cloud').jQCloud(words, {
+                autoResize: true
+            });
+        })
+    </script>
+{% end %}

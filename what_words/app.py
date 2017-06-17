@@ -3,6 +3,7 @@ what_words main application
 """
 from pathlib import Path
 
+import nltk
 import tornado.web
 import tornado.wsgi
 import wsgiref.simple_server
@@ -11,6 +12,9 @@ from what_words.views import URLFormHandler
 
 
 BASE_DIR = Path(__file__).parent
+
+
+nltk.download(['punkt', 'averaged_perceptron_tagger'])
 
 
 settings = {
