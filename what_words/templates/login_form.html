@@ -2,6 +2,8 @@
 
 
 {% block content %}
+    <h3>Enter admin password:</h3>
+
     <form method="post" action="">
         {% module xsrf_form_html() %}
         {% for field in form %}

@@ -4,11 +4,45 @@ what_words views
 import json
 
 import requests
+import tornado.web
+from decouple import config
 
 from what_words.db import PeeweeRequestHandler
-from what_words.forms import URLForm
+from what_words.forms import LoginForm, URLForm
 from what_words.models import WordCount
 from what_words.utils import get_words_count
+
+
+ADMIN_PASSWORD = config('ADMIN_PASSWORD')
+
+
+class LoginHandler(tornado.web.RequestHandler):
+    """
+    Tornado handler for login view
+    """
+    def get(self):
+        """
+        Render login form
+        """
+        form = LoginForm(self.request.arguments or None)
+
+        return self.render('templates/login_form.html', form=form)
+
+    def post(self):
+        """
+        Login the user if he entered correct admin password
+
+        :return:
+        """
+        form = LoginForm(self.request.arguments or None)
+        password = self.get_argument('password', '')
+
+        if password == ADMIN_PASSWORD:
+            self.set_secure_cookie('user', b'')
+            return self.redirect('/')
+        else:
+            form.password.errors = ("Incorrect password.",)
+            return self.render('templates/login_form.html', form=form)
 
 
 class URLFormHandler(PeeweeRequestHandler):
@@ -35,7 +69,7 @@ class URLFormHandler(PeeweeRequestHandler):
             try:
                 word_list = get_words_count(url, limit=100)
             except requests.RequestException:
-                form.url.errors.append("Passed URL is inaccessible.")
+                form.url.errors = ("Passed URL is inaccessible.",)
                 return self.render('templates/url_form.html', form=form)
 
             # Save word counts to the database
