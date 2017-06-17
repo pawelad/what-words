@@ -1,12 +1,23 @@
 <footer>
     <div class="container">
-        <div class="col-xs-6">
+        <div class="col-xs-4">
             <p>
                 Made by <a href="https://pawelad.xyz/">pawelad</a>
             </p>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col-xs-4">
+            <p class="text-center">
+                <a href="{{ reverse_url('word_list') }}">Word list</a>&nbsp;|&nbsp;
+                {% if current_user %}
+                    <a href="{{ reverse_url('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ reverse_url('login') }}">Login</a>
+                {% end %}
+            </p>
+        </div>
+
+        <div class="col-xs-4">
             <p class="pull-right">
                 <a href="https://github.com/pawelad/what-words">
                     <i class="fa fa-github fa-3x"></i>

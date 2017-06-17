@@ -51,10 +51,22 @@ class LoginHandler(BaseHandler):
 
         if password == ADMIN_PASSWORD:
             self.set_secure_cookie('user', 'admin')
-            return self.redirect('/')
+            return self.redirect(self.get_argument('next', '/'))
         else:
             form.password.errors = ("Incorrect password.",)
             return self.render('templates/login_form.html', form=form)
+
+
+class LogoutHandler(BaseHandler):
+    """
+    Tornado handler for logout view
+    """
+    def get(self):
+        """
+        Render login form
+        """
+        self.clear_cookie('user')
+        return self.redirect(self.reverse_url('index'))
 
 
 class URLFormHandler(BaseHandler):
