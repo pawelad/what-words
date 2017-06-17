@@ -1,0 +1,14 @@
+{% autoescape None %}
+
+
+<div class="form-group {% if field.errors %}has-error{% end %}">
+    {{ field.label }}
+
+    {{ field(class_='form-control', required=field.flags.required, placeholder=field.description) }}
+
+    {% if field.errors %}
+        {% for e in field.errors %}
+            <p class="help-block">{{ e }}</p>
+        {% end %}
+    {% end %}
+</div>
