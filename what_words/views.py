@@ -13,7 +13,7 @@ from what_words.models import WordCount
 from what_words.utils import get_words_count
 
 
-ADMIN_PASSWORD = config('ADMIN_PASSWORD')
+ADMIN_PASSWORD = config('ADMIN_PASSWORD', default='')
 
 
 class BaseHandler(PeeweeRequestHandler):
